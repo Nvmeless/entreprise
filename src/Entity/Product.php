@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 class Product
@@ -14,37 +15,40 @@ class Product
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['product:read', 'product:details'])]
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Groups(['product:read', 'product:details'])]
     private ?\DateTimeInterface $createdAt = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Groups(['product:read', 'product:details'])]
     private ?\DateTimeInterface $updatedAt = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['product:read', 'product:write', 'product:details'])]
     private ?string $status = null;
-
 
     /**
      * @var Collection<int, Contrat>
      */
     #[ORM\ManyToMany(targetEntity: Contrat::class, mappedBy: 'product')]
+    #[Groups(['product:read', 'product:details'])]
     private Collection $contrats;
 
-
     #[ORM\Column(nullable: true)]
+    #[Groups(['product:read', 'product:write', 'product:details'])]
     private ?int $quantity = null;
 
     #[ORM\ManyToOne]
+    #[Groups(['product:read', 'product:write', 'product:details'])]
     private ?QuantityType $quantityType = null;
-
 
     public function __construct()
     {
         $this->contrats = new ArrayCollection();
     }
-
 
     public function getId(): ?int
     {
@@ -87,8 +91,6 @@ class Product
         return $this;
     }
 
-
-
     /**
      * @return Collection<int, Contrat>
      */
@@ -115,7 +117,6 @@ class Product
 
         return $this;
     }
-
 
     public function getQuantity(): ?int
     {
