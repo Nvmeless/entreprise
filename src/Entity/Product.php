@@ -15,34 +15,34 @@ class Product
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['product:read', 'product:details'])]
+    #[Groups(['product', 'product:details'])]
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    #[Groups(['product:read', 'product:details'])]
+    #[Groups(['product', 'product:details'])]
     private ?\DateTimeInterface $createdAt = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    #[Groups(['product:read', 'product:details'])]
+    #[Groups(['product', 'product:details'])]
     private ?\DateTimeInterface $updatedAt = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['product:read', 'product:write', 'product:details'])]
+    #[Groups(['product', 'product:write', 'product:details'])]
     private ?string $status = null;
 
     /**
      * @var Collection<int, Contrat>
      */
     #[ORM\ManyToMany(targetEntity: Contrat::class, mappedBy: 'product')]
-    #[Groups(['product:read', 'product:details'])]
+    #[Groups(['product', 'product:details'])]
     private Collection $contrats;
 
     #[ORM\Column(nullable: true)]
-    #[Groups(['product:read', 'product:write', 'product:details'])]
+    #[Groups(['product', 'product:write', 'product:details'])]
     private ?int $quantity = null;
 
     #[ORM\ManyToOne]
-    #[Groups(['product:read', 'product:write', 'product:details'])]
+    #[Groups(['product', 'product:write', 'product:details'])]
     private ?QuantityType $quantityType = null;
 
     public function __construct()
